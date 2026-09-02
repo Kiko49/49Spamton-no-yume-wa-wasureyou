@@ -1,5 +1,58 @@
-              [PLAY]
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        ゲームを保存する
+    <title>ノベル</title>
 
-      セーブデータをロードする
+    <style>
+        body {
+            margin: 0;
+            background: #C9C2BE;
+            color: #FF6F1B;
+            font-family: Arial, sans-serif;
+        }
+
+        .menu {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .button {
+            color: #FF6F1B;
+            font-size: 20px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="menu">
+
+        <a href="game.html" class="button">
+            [PLAY]
+        </a>
+
+        <a href="#" class="button">
+            ゲームを保存する
+        </a>
+
+        <a href="#" class="button">
+            セーブデータをロードする
+        </a>
+
+    </div>
+
+</body>
+</html>
