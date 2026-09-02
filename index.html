@@ -9,48 +9,69 @@
     <style>
         body {
             margin: 0;
+            background: #C9C2BE;
+            color: #FF6F1B;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
             min-height: 100vh;
-            font-family: sans-serif;
-            background: #f5f5f5;
-            color: #222;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        header {
-            padding: 20px;
-            text-align: center;
-            background: white;
-            border-bottom: 1px solid #ddd;
-        }
-
-        main {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            text-align: center;
-        }
-
-        button {
-            padding: 12px 25px;
-            border: none;
-            background: #222;
-            color: white;
+        .game-image {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
             cursor: pointer;
+        }
+
+        .title {
+            margin-top: 15px;
+            font-size: 20px;
+        }
+
+        .play {
+            margin-top: 20px;
+            color: #FF6F1B;
+            text-decoration: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .play:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 
 <body>
 
-    <header>
-        <h1>サイト</h1>
-    </header>
+    <div class="container">
 
-    <main>
-        <h2>ようこそ</h2>
-        <p>ここには、まだ何もありません。</p>
+        <!-- Нажатие на картинку открывает новеллу -->
+        <a href="novel.html">
+            <img
+                src="https://via.placeholder.com/300"
+                alt="ゲーム"
+                class="game-image"
+            >
+        </a>
 
-        <button>ENTER</button>
-    </main>
+        <!-- Название -->
+        <div class="title">
+            ノベル
+        </div>
+
+        <!-- Кнопка PLAY -->
+        <a href="novel.html" class="play">
+            [PLAY]
+        </a>
+
+    </div>
 
 </body>
 </html>
