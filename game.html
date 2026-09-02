@@ -16,12 +16,12 @@
             margin: 0;
             width: 100%;
             height: 100%;
-            background: #000;
+            background: black;
             overflow: hidden;
             font-family: Arial, sans-serif;
         }
 
-        /* Вся игра */
+        /* Вся игровая область */
         .game {
             width: 100vw;
             height: 100vh;
@@ -33,31 +33,44 @@
             cursor: pointer;
         }
 
-        /* Область изображения */
+        /* Область сцены */
         .scene {
             position: relative;
 
             width: 100%;
             height: 65%;
 
-            background: #eeeeee;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: black;
 
             overflow: hidden;
         }
 
-        /*
-        Здесь позже будет твоя картинка.
+        /* Фон */
+        .background {
+            position: absolute;
 
-        Сейчас вместо неё просто написано IMAGE.
-        */
+            width: 100%;
+            height: 100%;
 
-        .scene-placeholder {
-            color: #999;
-            font-size: 20px;
+            object-fit: cover;
+
+            left: 0;
+            top: 0;
+        }
+
+        /* Персонаж */
+        .character {
+            position: absolute;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
+
+            left: 0;
+            top: 0;
+
+            pointer-events: none;
         }
 
         /* Кнопка полноэкранного режима */
@@ -92,7 +105,7 @@
             padding: 25px 35px;
         }
 
-        /* Имя персонажа */
+        /* Имя */
         .name {
             font-size: 18px;
             font-weight: bold;
@@ -126,9 +139,11 @@
             font-size: 22px;
 
             cursor: pointer;
+
+            z-index: 20;
         }
 
-        /* Меню сохранения */
+        /* Меню */
         .menu {
             display: none;
 
@@ -143,7 +158,7 @@
 
             padding: 10px;
 
-            z-index: 10;
+            z-index: 30;
         }
 
         .menu button {
@@ -170,7 +185,7 @@
             background: #eeeeee;
         }
 
-        /* Для маленьких экранов */
+        /* Маленькие экраны */
         @media (max-width: 600px) {
 
             .scene {
@@ -197,12 +212,24 @@
 
     <div class="game" id="game">
 
-        <!-- ИЗОБРАЖЕНИЕ -->
+        <!-- СЦЕНА -->
         <div class="scene">
 
-            <div class="scene-placeholder">
-                IMAGE
-            </div>
+            <!-- Фон -->
+            <img
+                id="background"
+                class="background"
+                src="images/black.png"
+                alt=""
+            >
+
+            <!-- Персонаж -->
+            <img
+                id="character"
+                class="character"
+                src=""
+                alt=""
+            >
 
             <!-- Полный экран -->
             <button
@@ -247,15 +274,21 @@
             </div>
 
 
-            <!-- Имя -->
-            <div class="name">
-                CHARACTER
+            <!-- Имя персонажа -->
+            <div
+                class="name"
+                id="name"
+            >
+                ???
             </div>
 
 
-            <!-- Реплика -->
-            <div class="text" id="text">
-                Hello. This is the beginning of the story.
+            <!-- Текст -->
+            <div
+                class="text"
+                id="text"
+            >
+                I think I'll introduce myself for the first time to the voices in my head.
             </div>
 
         </div>
@@ -267,33 +300,49 @@
 
         /*
         ==========================================
-        ДИАЛОГИ
+        СЦЕНАРИЙ
         ==========================================
         */
 
         const dialogues = [
 
             {
-                name: "CHARACTER",
-                text: "Hello. This is the beginning of the story.",
+                name: "???",
+                text: "I think I'll introduce myself for the first time to the voices in my head.",
+                background: "images/black.png",
+                character: "",
                 japanese: false
             },
 
             {
-                name: "CHARACTER",
-                text: "This is the second line.",
+                name: "Tihun",
+                text: "My name is Tihun, and I have a very important mission right now!",
+                background: "images/black.png",
+                character: "",
                 japanese: false
             },
 
             {
-                name: "CHARACTER",
-                text: "こんにちは。",
-                japanese: true
+                name: "Tihun",
+                text: "I'm going to tell a friend that the person he adored died.",
+                background: "images/black.png",
+                character: "",
+                japanese: false
             },
 
             {
-                name: "CHARACTER",
-                text: "And this is another line.",
+                name: "Tihun",
+                text: "It's terrible, but it's the least I can do for him...",
+                background: "images/black.png",
+                character: "",
+                japanese: false
+            },
+
+            {
+                name: "Tihun",
+                text: "This is my poor, unfortunate friend who will face this terrible truth! His name is Shelbi...",
+                background: "images/backgroundroom.png",
+                character: "images/shelbih.png",
                 japanese: false
             }
 
@@ -313,13 +362,33 @@
 
             const dialogue = dialogues[currentDialogue];
 
-            const nameElement = document.querySelector(".name");
+            const nameElement = document.getElementById("name");
             const textElement = document.getElementById("text");
+
+            const backgroundElement =
+                document.getElementById("background");
+
+            const characterElement =
+                document.getElementById("character");
+
+
+            /*
+            Имя
+            */
 
             nameElement.textContent = dialogue.name;
 
+
+            /*
+            Текст
+            */
+
             textElement.textContent = dialogue.text;
 
+
+            /*
+            Цвет японского текста
+            */
 
             if (dialogue.japanese) {
 
@@ -330,6 +399,31 @@
                 textElement.classList.remove("japanese");
 
             }
+
+
+            /*
+            Фон
+            */
+
+            backgroundElement.src = dialogue.background;
+
+
+            /*
+            Персонаж
+            */
+
+            if (dialogue.character) {
+
+                characterElement.src = dialogue.character;
+                characterElement.style.display = "block";
+
+            } else {
+
+                characterElement.src = "";
+                characterElement.style.display = "none";
+
+            }
+
         }
 
 
@@ -342,8 +436,9 @@
         function nextDialogue(event) {
 
             /*
-            Если нажали на кнопку меню,
-            не переключаем реплику.
+            Не переключать реплику,
+            если нажата кнопка меню
+            или само меню.
             */
 
             if (
@@ -367,7 +462,7 @@
 
         /*
         ==========================================
-        ОТКРЫТЬ / ЗАКРЫТЬ МЕНЮ
+        МЕНЮ
         ==========================================
         */
 
@@ -386,6 +481,7 @@
                 menu.style.display = "block";
 
             }
+
         }
 
 
@@ -419,7 +515,8 @@
 
             event.stopPropagation();
 
-            const saved = localStorage.getItem("novelSave");
+            const saved =
+                localStorage.getItem("novelSave");
 
 
             if (saved !== null) {
@@ -449,7 +546,8 @@
 
             event.stopPropagation();
 
-            const game = document.getElementById("game");
+            const game =
+                document.getElementById("game");
 
 
             if (!document.fullscreenElement) {
