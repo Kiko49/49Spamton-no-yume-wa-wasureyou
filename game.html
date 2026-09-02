@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Game</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: white;
+            color: black;
+            font-family: Arial, sans-serif;
+        }
+
+        .game {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Верхняя часть — изображение */
+        .scene {
+            flex: 1;
+            min-height: 65vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #eeeeee;
+        }
+
+        .scene-text {
+            color: #999999;
+            font-size: 18px;
+        }
+
+        /* Диалоговое окно */
+        .dialogue {
+            position: relative;
+
+            min-height: 35vh;
+            padding: 30px;
+
+            background: white;
+            border-top: 1px solid #cccccc;
+        }
+
+        .name {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .text {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        /* Кнопка меню */
+        .menu-button {
+            position: absolute;
+            right: 15px;
+            top: 10px;
+
+            border: none;
+            background: none;
+
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="game">
+
+        <div class="scene">
+            <div class="scene-text">
+                IMAGE
+            </div>
+        </div>
+
+        <div class="dialogue">
+
+            <button class="menu-button">☰</button>
+
+            <div class="name">
+                CHARACTER
+            </div>
+
+            <div class="text">
+                Hello. This is the beginning of the story.
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
