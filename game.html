@@ -1,838 +1,1219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Game</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        html,
-        body {
-            margin: 0;
-            width: 100%;
-            height: 100%;
-            background: black;
-            overflow: hidden;
-            font-family: Arial, sans-serif;
-        }
-
-        /* Вся игра */
-        .game {
-            width: 100vw;
-            height: 100vh;
-            background: #FE6D1A;
-
-            display: flex;
-            flex-direction: column;
-
-            cursor: pointer;
-        }
-
-        /* Область сцены */
-        .scene {
-            position: relative;
-
-            width: 100%;
-            height: 65%;
-
-            background: black;
-
-            overflow: hidden;
-        }
-
-        /* Фон */
-        .background {
-            position: absolute;
-
-            width: 100%;
-            height: 100%;
-
-            object-fit: cover;
-
-            left: 0;
-            top: 0;
-
-            z-index: 1;
-        }
-
-        /* Персонажи */
-        .character {
-            position: absolute;
-
-            width: 100%;
-            height: 100%;
-
-            object-fit: contain;
-
-            left: 0;
-            top: 0;
-
-            pointer-events: none;
-
-            z-index: 2;
-        }
-
-        /* Дополнительная картинка сцены
-           Например hug.png, remember.png, end1.png и т.д. */
-        .scene-image {
-            position: absolute;
-
-            width: 100%;
-            height: 100%;
-
-            object-fit: contain;
-
-            left: 0;
-            top: 0;
-
-            pointer-events: none;
-
-            z-index: 10;
-        }
-
-        /* Полный экран */
-        .fullscreen {
-            position: absolute;
-
-            top: 12px;
-            right: 12px;
-
-            border: none;
-            background: rgba(254, 109, 26, 0.85);
-
-            color: #1F3271;
-
-            padding: 7px 10px;
-
-            font-size: 18px;
-            font-weight: bold;
-
-            cursor: pointer;
-
-            z-index: 20;
-        }
-
-        /* Диалог */
-        .dialogue {
-            position: relative;
-
-            width: 100%;
-            height: 35%;
-
-            background: #FE6D1A;
-
-            border-top: 2px solid #1F3271;
-
-            padding: 25px 35px;
-        }
-
-        /* Имя */
-        .name {
-            color: #1F3271;
-
-            font-size: 18px;
-            font-weight: bold;
-
-            margin-bottom: 15px;
-        }
-
-        /* Текст */
-        .text {
-            color: #1F3271;
-
-            font-size: 18px;
-            line-height: 1.6;
-
-            white-space: pre-wrap;
-        }
-
-        /* Японский текст */
-        .japanese {
-            color: red;
-        }
-
-        /* Кнопка меню */
-        .menu-button {
-            position: absolute;
-
-            top: 10px;
-            right: 15px;
-
-            border: none;
-            background: none;
-
-            color: #1F3271;
-
-            font-size: 22px;
-            font-weight: bold;
-
-            cursor: pointer;
-
-            z-index: 20;
-        }
-
-        /* Меню */
-        .menu {
-            display: none;
-
-            position: absolute;
-
-            right: 15px;
-            top: 45px;
-
-            background: #FE6D1A;
-
-            border: 2px solid #1F3271;
-
-            padding: 8px;
-
-            z-index: 30;
-        }
-
-        /* Кнопки меню */
-        .menu button {
-            display: block;
-
-            width: 100%;
-
-            padding: 9px 12px;
-
-            margin: 3px 0;
-
-            border: none;
-
-            background: #FE6D1A;
-
-            color: #1F3271;
-
-            text-align: left;
-
-            cursor: pointer;
-
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .menu button:hover {
-            background: #1F3271;
-            color: #FE6D1A;
-        }
-
-        /* Маленькие экраны */
-        @media (max-width: 600px) {
-
-            .scene {
-                height: 60%;
-            }
-
-            .dialogue {
-                height: 40%;
-                padding: 20px;
-            }
-
-            .text {
-                font-size: 16px;
-            }
-
-            .name {
-                font-size: 16px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Game</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+.game {
+    width: 100vw;
+    height: 100vh;
+    background: #FE6D1A;
+    display: flex;
+    flex-direction: column;
+}
+
+.scene {
+    position: relative;
+    width: 100%;
+    height: 65%;
+    background: black;
+    overflow: hidden;
+}
+
+.background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.character {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    object-fit: contain;
+    pointer-events: none;
+    z-index: 2;
+}
+
+#character2 {
+    z-index: 3;
+}
+
+#character3 {
+    z-index: 4;
+}
+
+.scene-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    object-fit: contain;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.fullscreen {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    border: none;
+    background: rgba(254,109,26,0.85);
+    color: #1F3271;
+    padding: 7px 10px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 20;
+}
+
+.dialogue {
+    position: relative;
+    width: 100%;
+    height: 35%;
+    background: #FE6D1A;
+    border-top: 2px solid #1F3271;
+    padding: 25px 35px;
+    cursor: pointer;
+}
+
+.name {
+    color: #1F3271;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.text {
+    color: #1F3271;
+    font-size: 18px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.japanese {
+    color: red;
+}
+
+.menu-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    border: none;
+    background: none;
+    color: #1F3271;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 20;
+}
+
+.menu {
+    display: none;
+    position: absolute;
+    right: 15px;
+    top: 45px;
+    background: #FE6D1A;
+    border: 2px solid #1F3271;
+    padding: 8px;
+    z-index: 30;
+}
+
+.menu button {
+    display: block;
+    width: 100%;
+    padding: 9px 12px;
+    margin: 3px 0;
+    border: none;
+    background: #FE6D1A;
+    color: #1F3271;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.menu button:hover {
+    background: #1F3271;
+    color: #FE6D1A;
+}
+
+@media (max-width: 600px) {
+
+    .scene {
+        height: 60%;
+    }
+
+    .dialogue {
+        height: 40%;
+        padding: 20px;
+    }
+
+    .text {
+        font-size: 16px;
+    }
+
+    .name {
+        font-size: 16px;
+    }
+
+}
+
+</style>
 </head>
 
 <body>
 
-    <div class="game" id="game">
+<div class="game" id="game">
 
-        <!-- СЦЕНА -->
-        <div class="scene">
+    <div class="scene">
 
-            <!-- Фон -->
-            <img
-                id="background"
-                class="background"
-                src="images/black.png"
-                alt=""
-            >
-
-            <!-- Персонаж 1 -->
-            <img
-                id="character1"
-                class="character"
-                src=""
-                alt=""
-            >
-
-            <!-- Персонаж 2 -->
-            <img
-                id="character2"
-                class="character"
-                src=""
-                alt=""
-            >
-
-            <!-- Персонаж 3, если понадобится -->
-            <img
-                id="character3"
-                class="character"
-                src=""
-                alt=""
-            >
-
-            <!-- Специальная картинка сцены -->
-            <img
-                id="sceneImage"
-                class="scene-image"
-                src=""
-                alt=""
-                style="display: none;"
-            >
-
-            <!-- Полный экран -->
-            <button
-                class="fullscreen"
-                onclick="toggleFullscreen(event)"
-            >
-                ⛶
-            </button>
-
-        </div>
-
-
-        <!-- ДИАЛОГ -->
-        <div
-            class="dialogue"
-            onclick="nextDialogue(event)"
+        <img
+            id="background"
+            class="background"
+            src="images/black.png"
+            alt=""
         >
 
-            <!-- Кнопка меню -->
-            <button
-                class="menu-button"
-                onclick="toggleMenu(event)"
-            >
-                ☰
-            </button>
+        <img
+            id="character1"
+            class="character"
+            src=""
+            alt=""
+        >
 
+        <img
+            id="character2"
+            class="character"
+            src=""
+            alt=""
+        >
 
-            <!-- Меню -->
-            <div
-                class="menu"
-                id="menu"
-            >
+        <img
+            id="character3"
+            class="character"
+            src=""
+            alt=""
+        >
 
-                <button onclick="saveGame(event)">
-                    ゲームを保存する
-                </button>
+        <img
+            id="sceneImage"
+            class="scene-image"
+            src=""
+            alt=""
+            style="display:none;"
+        >
 
-                <button onclick="loadGame(event)">
-                    セーブデータをロードする
-                </button>
-
-            </div>
-
-
-            <!-- Имя -->
-            <div
-                class="name"
-                id="name"
-            >
-                ???
-            </div>
-
-
-            <!-- Текст -->
-            <div
-                class="text"
-                id="text"
-            >
-                I think I'll introduce myself for the first time to the voices in my head.
-            </div>
-
-        </div>
+        <button
+            class="fullscreen"
+            id="fullscreenButton"
+        >⛶</button>
 
     </div>
 
-
-    <!-- МУЗЫКА -->
-
-    <audio
-        id="sayonara"
-        src="music/sayonara.mp3"
-        loop
-    ></audio>
-
-    <audio
-        id="static"
-        src="music/static.mp3"
-    ></audio>
-
-
-    <script>
-
-        /*
-        ==========================================
-        СЦЕНАРИЙ
-        ==========================================
-        */
-
-        const dialogues = [
-
-            /* 1 */
-            {
-                name: "???",
-                text: "I think I'll introduce myself for the first time to the voices in my head.",
-                background: "images/black.png",
-                characters: [],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 2 */
-            {
-                name: "Tihun",
-                text: "My name is Tihun, and I have a very important mission right now!",
-                background: "images/black.png",
-                characters: [],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 3 */
-            {
-                name: "Tihun",
-                text: "I'm going to tell a friend that the person he adored died.",
-                background: "images/black.png",
-                characters: [],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 4 */
-            {
-                name: "",
-                text: "It's terrible, but it's the least I can do for him...",
-                background: "images/black.png",
-                characters: [],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 5 */
-            {
-                name: "Tihun",
-                text: "This is my poor, unfortunate friend who will face this terrible truth! His name is Shelbi...",
-                background: "images/backgroundroom.png",
-                characters: [
-                    "images/shelbih.png",
-                    "images/tihun.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 6 */
-            {
-                name: "Shelbi",
-                text: "I'm so glad you came! People come to see me so rarely!",
-                background: "images/backgroundroom.png",
-                characters: [
-                    "images/shelbih.png",
-                    "images/tihun2.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 7 */
-            {
-                name: "Shelbi",
-                text: "They say I'm wild... BUT THAT'S SO COOL!!!???",
-                background: "images/backgroundroom.png",
-                characters: [
-                    "images/shelbi1.png",
-                    "images/tihun2.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 8 */
-            {
-                name: "Tihun",
-                text: "...",
-                background: "images/backgroundroom.png",
-                characters: [
-                    "images/shelbi1.png",
-                    "images/tihun2.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 9 */
-            {
-                name: "Shelbi",
-                text: "You know, I bought some cabbage especially for you... You said you loved cabbage.",
-                background: "images/backgroundroom.png",
-                characters: [
-                    "images/shelbi1.png",
-                    "images/tihun2.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 10 */
-            {
-                name: "Shelbi",
-                text: "Honestly, I'm surprised your stomach can handle it.",
-                background: "images/backgroundroom.png",
-                characters: [
-                    "images/shelbi1.png",
-                    "images/tihun2.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 11 */
-            {
-                name: "Tihun",
-                text: "...",
-                background: "images/backgroundroom.png",
-                characters: [
-                    "images/shelbi1.png",
-                    "images/tihun2.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 12 */
-            {
-                name: "Shelbi",
-                text: "Is it just me, or are you especially quiet today?",
-                background: "images/backgroundroom.png",
-                characters: [
-                    "images/shelbi2.png",
-                    "images/tihun2.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 13 */
-            {
-                name: "Tihun",
-                text: "...Shelbi",
-                background: "images/backgroundroom.png",
-                characters: [
-                    "images/shelbi2.png",
-                    "images/tihun1.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 14 */
-            {
-                name: "Shelbi",
-                text: "What?",
-                background: "images/backgroundroom.png",
-                characters: [
-                    "images/shelbi1.png",
-                    "images/tihun1.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 15 */
-            {
-                name: "Tihun",
-                text: "...",
-                background: "images/backgroundroom.png",
-                characters: [
-                    "images/shelbi1.png",
-                    "images/tihun2.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 16 */
-            {
-                name: "Tihun",
-                text: "...Spamton died....",
-                background: "images/backgroundroom.png",
-                characters: [
-                    "images/shelbi1.png",
-                    "images/tihun1.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 17 */
-            {
-                name: "Shelbi",
-                text: "...!?",
-                background: "images/backgroundroom.png",
-                characters: [
-                    "images/shelbi3.png",
-                    "images/tihun1.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 18 */
-            {
-                name: "Shelbi",
-                text: "WHAT THE HELL!?",
-                background: "images/backgroundroom.png",
-                characters: [
-                    "images/shelbi3.png",
-                    "images/tihun1.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 19 */
-            {
-                name: "Tihun",
-                text: "Um... Tenna tripped over him and he died on the spot....",
-                background: "images/backgroundroom.png",
-                characters: [
-                    "images/shelbi3.png",
-                    "images/tihun1.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 20 */
-            {
-                name: "Shelbi",
-                text: "OH THAT BRAT!!!!!",
-                background: "images/backgroundroom.png",
-                characters: [
-                    "images/shelbi3.png",
-                    "images/tihun1.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 21 */
-            {
-                name: "Tihun",
-                text: "hey... actually I...lo-",
-                background: "images/backgroundroom.png",
-                characters: [
-                    "images/shelbi3.png",
-                    "images/tihun1.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 22 */
-            {
-                name: "Shelbi",
-                text: "I'LL TRY BUT I CAN'T!!! HOW DARE HE KILL MY FAVORITE SPAMTON!!??!",
-                background: "images/backgroundroom.png",
-                characters: [
-                    "images/shelbi3.png",
-                    "images/tihun1.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 23 */
-            {
-                name: "",
-                text: "It turns out Spamton is alive.",
-                background: "images/office.png",
-                characters: [
-                    "images/tenna1.png",
-                    "images/spamton1.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 24 */
-            {
-                name: "Shelbi",
-                text: "OH MY GOD I'M SO HAPPY!!! YOU'RE ALIVE!!!",
-                background: "images/office.png",
-                characters: [
-                    "images/tenna1.png",
-                    "images/spamton1.png",
-                    "images/shelbih.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 25 */
-            {
-                name: "Tenna",
-                text: "Don't touch him! He hit his head.",
-                background: "images/office.png",
-                characters: [
-                    "images/tenna1.png",
-                    "images/spamton1.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 26 */
-            {
-                name: "Shelbi",
-                text: "You tripped over him yourself, you better shut up, he almost died because of you.",
-                background: "images/office.png",
-                characters: [
-                    "images/tenna1.png",
-                    "images/spamton1.png",
-                    "images/shelbi3.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 27 */
-            {
-                name: "Tenna",
-                text: "...",
-                background: "images/office.png",
-                characters: [
-                    "images/tenna2.png",
-                    "images/spamton1.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 28 */
-            {
-                name: "Tenna",
-                text: "Spamton, are you okay?",
-                background: "images/office.png",
-                characters: [
-                    "images/tenna1.png",
-                    "images/spamton1.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 29 */
-            {
-                name: "Spamton",
-                text: "...of course....",
-                background: "images/office.png",
-                characters: [
-                    "images/tenna1.png",
-                    "images/spamton2.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 30 */
-            {
-                name: "Shelbi",
-                text: "...",
-                background: "images/office.png",
-                characters: [
-                    "images/tenna1.png",
-                    "images/spamton2.png",
-                    "images/shelbi2.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese: false
-            },
-
-
-            /* 31 */
-            {
-                name: "Tenna",
-                text: "...",
-                background: "images/office.png",
-                characters: [
-                    "images/tenna1.png",
-                    "images/spamton2.png"
-                ],
-                sceneImage: "",
-                music: "sayonara",
-                japanese:
+    <div
+        class="dialogue"
+        id="dialogue"
+    >
+
+        <button
+            class="menu-button"
+            id="menuButton"
+        >☰</button>
+
+        <div
+            class="menu"
+            id="menu"
+        >
+
+            <button id="saveButton">
+                ゲームを保存する
+            </button>
+
+            <button id="loadButton">
+                セーブデータをロードする
+            </button>
+
+        </div>
+
+        <div
+            class="name"
+            id="name"
+        ></div>
+
+        <div
+            class="text"
+            id="text"
+        ></div>
+
+    </div>
+
+</div>
+
+<audio
+    id="sayonara"
+    src="music/sayonara.mp3"
+    loop
+></audio>
+
+<audio
+    id="static"
+    src="music/static.mp3"
+></audio>
+
+<script>
+const dialogues = [
+
+    {
+        name: "???",
+        text: "I think I'll introduce myself for the first time to the voices in my head.",
+        background: "images/black.png",
+        characters: [],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tihun",
+        text: "My name is Tihun, and I have a very important mission right now!",
+        background: "images/black.png",
+        characters: [],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tihun",
+        text: "I'm going to tell a friend that the person he adored died.",
+        background: "images/black.png",
+        characters: [],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "",
+        text: "It's terrible, but it's the least I can do for him...",
+        background: "images/black.png",
+        characters: [],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tihun",
+        text: "This is my poor, unfortunate friend who will face this terrible truth! His name is Shelbi...",
+        background: "images/backgroundroom.png",
+        characters: [
+            "images/shelbih.png",
+            "images/tihun.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Shelbi",
+        text: "I'm so glad you came! People come to see me so rarely!",
+        background: "images/backgroundroom.png",
+        characters: [
+            "images/shelbih.png",
+            "images/tihun2.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Shelbi",
+        text: "They say I'm wild... BUT THAT'S SO COOL!!!???",
+        background: "images/backgroundroom.png",
+        characters: [
+            "images/shelbi1.png",
+            "images/tihun2.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tihun",
+        text: "...",
+        background: "images/backgroundroom.png",
+        characters: [
+            "images/shelbi1.png",
+            "images/tihun2.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Shelbi",
+        text: "You know, I bought some cabbage especially for you... You said you loved cabbage.",
+        background: "images/backgroundroom.png",
+        characters: [
+            "images/shelbi1.png",
+            "images/tihun2.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Shelbi",
+        text: "Honestly, I'm surprised your stomach can handle it.",
+        background: "images/backgroundroom.png",
+        characters: [
+            "images/shelbi1.png",
+            "images/tihun2.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tihun",
+        text: "...",
+        background: "images/backgroundroom.png",
+        characters: [
+            "images/shelbi1.png",
+            "images/tihun2.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Shelbi",
+        text: "Is it just me, or are you especially quiet today?",
+        background: "images/backgroundroom.png",
+        characters: [
+            "images/shelbi2.png",
+            "images/tihun2.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tihun",
+        text: "...Shelbi",
+        background: "images/backgroundroom.png",
+        characters: [
+            "images/shelbi2.png",
+            "images/tihun1.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Shelbi",
+        text: "What?",
+        background: "images/backgroundroom.png",
+        characters: [
+            "images/shelbi1.png",
+            "images/tihun1.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tihun",
+        text: "...",
+        background: "images/backgroundroom.png",
+        characters: [
+            "images/shelbi1.png",
+            "images/tihun2.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tihun",
+        text: "...Spamton died....",
+        background: "images/backgroundroom.png",
+        characters: [
+            "images/shelbi1.png",
+            "images/tihun1.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Shelbi",
+        text: "...!?",
+        background: "images/backgroundroom.png",
+        characters: [
+            "images/shelbi3.png",
+            "images/tihun1.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Shelbi",
+        text: "WHAT THE HELL!?",
+        background: "images/backgroundroom.png",
+        characters: [
+            "images/shelbi3.png",
+            "images/tihun1.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tihun",
+        text: "Um... Tenna tripped over him and he died on the spot....",
+        background: "images/backgroundroom.png",
+        characters: [
+            "images/shelbi3.png",
+            "images/tihun1.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Shelbi",
+        text: "OH THAT BRAT!!!!!",
+        background: "images/backgroundroom.png",
+        characters: [
+            "images/shelbi3.png",
+            "images/tihun1.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tihun",
+        text: "hey... actually I...lo-",
+        background: "images/backgroundroom.png",
+        characters: [
+            "images/shelbi3.png",
+            "images/tihun1.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Shelbi",
+        text: "I'LL TRY BUT I CAN'T!!! HOW DARE HE KILL MY FAVORITE SPAMTON!!??!",
+        background: "images/office.png",
+        characters: [
+            "images/shelbi3.png",
+            "images/tihun1.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "",
+        text: "It turns out Spamton is alive.",
+        background: "images/office.png",
+        characters: [
+            "images/tenna1.png",
+            "images/spamton1.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Shelbi",
+        text: "OH MY GOD I'M SO HAPPY!!! YOU'RE ALIVE!!!",
+        background: "images/office.png",
+        characters: [
+            "images/tenna1.png",
+            "images/spamton1.png",
+            "images/shelbih.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tenna",
+        text: "Don't touch him! He hit his head.",
+        background: "images/office.png",
+        characters: [
+            "images/tenna1.png",
+            "images/spamton1.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Shelbi",
+        text: "You tripped over him yourself, you better shut up, he almost died because of you.",
+        background: "images/office.png",
+        characters: [
+            "images/tenna1.png",
+            "images/spamton1.png",
+            "images/shelbi3.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tenna",
+        text: "...",
+        background: "images/office.png",
+        characters: [
+            "images/tenna2.png",
+            "images/spamton1.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tenna",
+        text: "Spamton, are you okay?",
+        background: "images/office.png",
+        characters: [
+            "images/tenna1.png",
+            "images/spamton1.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Spamton",
+        text: "...of course....",
+        background: "images/office.png",
+        characters: [
+            "images/tenna1.png",
+            "images/spamton2.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Shelbi",
+        text: "...",
+        background: "images/office.png",
+        characters: [
+            "images/tenna1.png",
+            "images/spamton2.png",
+            "images/shelbi2.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tenna",
+        text: "...",
+        background: "images/office.png",
+        characters: [
+            "images/tenna1.png",
+            "images/spamton2.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+        {
+        name: "*Tihun enters the room*",
+        text: "",
+        background: "images/office.png",
+        characters: [
+            "images/tenna1.png",
+            "images/spamton2.png",
+            "images/tihun2.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tihun",
+        text: "Shelbi, I'm- oh? He's alive? Okay...",
+        background: "images/office.png",
+        characters: [
+            "images/tenna1.png",
+            "images/spamton2.png",
+            "images/tihun1.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tenna",
+        text: "UGHHH! You're that very tick that lives in my couch!",
+        background: "images/office.png",
+        characters: [
+            "images/tenna3.png",
+            "images/spamton2.png",
+            "images/tihun1.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tenna",
+        text: "GO OUT!",
+        background: "images/office.png",
+        characters: [
+            "images/tenna3.png",
+            "images/spamton2.png",
+            "images/tihun1.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tihun",
+        text: "Don't act like I'm your stalker, I'm just always around and I live in your couch...",
+        background: "images/office.png",
+        characters: [
+            "images/tenna3.png",
+            "images/spamton2.png",
+            "images/tihun1.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tenna",
+        text: "If you don't get off my couch, I'll throw rocks at it so you don't live there!!!!!!",
+        background: "images/office.png",
+        characters: [
+            "images/tenna3.png",
+            "images/spamton2.png",
+            "images/tihun1.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tihun",
+        text: "ugh...",
+        background: "images/office.png",
+        characters: [
+            "images/tenna3.png",
+            "images/spamton2.png",
+            "images/tihun2.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tenna",
+        text: "Anyway, you two leave us alone, it's none of your business.",
+        background: "images/office.png",
+        characters: [
+            "images/tenna1.png",
+            "images/spamton2.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Spamton",
+        text: "Shelbi, have you done the work I gave you?",
+        background: "images/office.png",
+        characters: [
+            "images/tenna1.png",
+            "images/spamton4.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Shelbi",
+        text: "Oh, not yet! BUT I'LL FIX IT RIGHT NOW!",
+        background: "images/office.png",
+        characters: [
+            "images/tenna1.png",
+            "images/spamton4.png",
+            "images/shelbi1.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Shelbi",
+        text: "Tihun, LET'S GO, WE HAVE WORK TO DO!",
+        background: "images/office.png",
+        characters: [
+            "images/tenna1.png",
+            "images/spamton4.png",
+            "images/shelbih.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tihun",
+        text: "You. I've done mine.",
+        background: "images/office.png",
+        characters: [
+            "images/tenna1.png",
+            "images/spamton4.png",
+            "images/tihun1.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Shelbi",
+        text: "ANYWAY!!!!",
+        background: "images/office.png",
+        characters: [
+            "images/tenna1.png",
+            "images/spamton4.png",
+            "images/shelbih.png"
+        ],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "",
+        text: "",
+        background: "images/black.png",
+        characters: [],
+        sceneImage: "images/hug.png",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tenna",
+        text: "I really think something's wrong with you...",
+        background: "images/black.png",
+        characters: [],
+        sceneImage: "images/hug.png",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tenna",
+        text: "I'm so sorry I hurt you...",
+        background: "images/black.png",
+        characters: [],
+        sceneImage: "images/hug.png",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Spamton",
+        text: "君がくれた痛みが好きだ",
+        background: "images/black.png",
+        characters: [],
+        sceneImage: "images/hug.png",
+        music: "sayonara",
+        japanese: true
+    },
+
+    {
+        name: "Tenna",
+        text: "...?",
+        background: "images/black.png",
+        characters: [],
+        sceneImage: "images/hug.png",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tenna",
+        text: "I'm so sorry....",
+        background: "images/black.png",
+        characters: [],
+        sceneImage: "images/hug.png",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Spamton",
+        text: "What are you doing?\nAre you killing me? That feels good!",
+        background: "images/black.png",
+        characters: [],
+        sceneImage: "images/hug.png",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Tenna",
+        text: "NO I... *remembers tripping over him* I'm just hugging you...",
+        background: "images/black.png",
+        characters: [],
+        sceneImage: "images/hug.png",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Spamton",
+        text: "I'm just kidding! ...ha ha...",
+        background: "images/black.png",
+        characters: [],
+        sceneImage: "",
+        music: "sayonara",
+        japanese: false
+    },
+
+    {
+        name: "Spamton",
+        text: "Just remember, no matter what, I won't abandon you!",
+        background: "images/black.png",
+        characters: [],
+        sceneImage: "images/remember.png",
+        music: "static",
+        japanese: false
+    },
+        {
+        name: "...",
+        text: "",
+        background: "images/black.png",
+        characters: [],
+        sceneImage: "",
+        music: "static",
+        japanese: false
+    },
+
+    {
+        name: "Spamton",
+        text: "I'll be honest with myself, I'm scared. But I don't have much time left.",
+        background: "images/black.png",
+        characters: [],
+        sceneImage: "images/end1.png",
+        music: "static",
+        japanese: false
+    },
+
+    {
+        name: "Spamton",
+        text: "After I told Tenna my secret, I really don't have much choice...",
+        background: "images/black.png",
+        characters: [],
+        sceneImage: "images/end1.png",
+        music: "static",
+        japanese: false
+    },
+
+    {
+        name: "Spamton",
+        text: "Either I disappear and leave him, or I die very soon...",
+        background: "images/black.png",
+        characters: [],
+        sceneImage: "images/end1.png",
+        music: "static",
+        japanese: false
+    },
+
+    {
+        name: "Spamton",
+        text: "...",
+        background: "images/black.png",
+        characters: [],
+        sceneImage: "images/end2.png",
+        music: "static",
+        japanese: false
+    },
+
+    {
+        name: "Spamton",
+        text: "...I'd really like to live, but I feel like the life I can afford is meaningless.",
+        background: "images/black.png",
+        characters: [],
+        sceneImage: "images/end2.png",
+        music: "static",
+        japanese: false
+    },
+
+    {
+        name: "Spamton",
+        text: "...I'm so scared...",
+        background: "images/black.png",
+        characters: [],
+        sceneImage: "images/end2.png",
+        music: "static",
+        japanese: false
+    },
+
+    {
+        name: ":",
+        text: "...",
+        background: "images/black.png",
+        characters: [],
+        sceneImage: "",
+        music: "static",
+        japanese: false
+    },
+
+    {
+        name: ":",
+        text: "49 四十九",
+        background: "images/black.png",
+        characters: [],
+        sceneImage: "images/end3.png",
+        music: "static",
+        japanese: false
+    }
+
+];
+
+let currentDialogue = 0;
+let currentMusic = "";
+
+const bg = document.getElementById("background");
+const c1 = document.getElementById("character1");
+const c2 = document.getElementById("character2");
+const c3 = document.getElementById("character3");
+const sceneImage = document.getElementById("sceneImage");
+
+const nameBox = document.getElementById("name");
+const textBox = document.getElementById("text");
+
+function stopAllMusic() {
+    document.getElementById("sayonara").pause();
+    document.getElementById("static").pause();
+
+    document.getElementById("sayonara").currentTime = 0;
+    document.getElementById("static").currentTime = 0;
+}
+
+function changeMusic(musicName) {
+
+    if (currentMusic === musicName) return;
+
+    stopAllMusic();
+
+    currentMusic = musicName;
+
+    if (musicName !== "") {
+
+        const music = document.getElementById(musicName);
+
+        if (music) {
+
+            music.play().catch(() => {});
+
+        }
+
+    }
+}
+
+function showDialogue() {
+
+    const d = dialogues[currentDialogue];
+
+    bg.src = d.background;
+
+    c1.src = d.characters[0] || "";
+    c2.src = d.characters[1] || "";
+    c3.src = d.characters[2] || "";
+
+    nameBox.textContent = d.name;
+
+    if (d.japanese) {
+
+        textBox.innerHTML =
+            "<span class='japanese'>" +
+            d.text +
+            "</span>";
+
+    } else {
+
+        textBox.textContent = d.text;
+
+    }
+
+    if (d.sceneImage) {
+
+        sceneImage.src = d.sceneImage;
+        sceneImage.style.display = "block";
+
+    } else {
+
+        sceneImage.style.display = "none";
+
+    }
+
+    changeMusic(d.music);
+}
+
+function nextDialogue() {
+
+    if (currentDialogue < dialogues.length - 1) {
+
+        currentDialogue++;
+
+        showDialogue();
+
+    }
+
+}
+
+document.getElementById("dialogue")
+.addEventListener("click", nextDialogue);
+
+document.getElementById("menuButton")
+.addEventListener("click", function(event){
+
+    event.stopPropagation();
+
+    const menu = document.getElementById("menu");
+
+    if(menu.style.display === "block"){
+        menu.style.display = "none";
+    } else {
+        menu.style.display = "block";
+    }
+
+});
+
+document.getElementById("saveButton")
+.addEventListener("click", function(event){
+
+    event.stopPropagation();
+
+    localStorage.setItem(
+        "saveData",
+        currentDialogue
+    );
+
+});
+
+document.getElementById("loadButton")
+.addEventListener("click", function(event){
+
+    event.stopPropagation();
+
+    const save =
+        localStorage.getItem("saveData");
+
+    if(save !== null){
+
+        currentDialogue =
+            parseInt(save);
+
+        showDialogue();
+
+    }
+
+});
+
+document.getElementById("fullscreenButton")
+.addEventListener("click", function(event){
+
+    event.stopPropagation();
+
+    if(!document.fullscreenElement){
+
+        document.documentElement
+        .requestFullscreen();
+
+    } else {
+
+        document.exitFullscreen();
+
+    }
+
+});
+
+showDialogue();
+
+</script>
+</body>
+</html>
