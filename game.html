@@ -50,21 +50,20 @@ body {
 
 .character {
     position: absolute;
-    width: 100%;
+    width: 50%;
     height: 100%;
-    left: 0;
     top: 0;
     object-fit: contain;
     pointer-events: none;
     z-index: 2;
 }
 
-#character2 {
-    z-index: 3;
+#character1 {
+    left: 0;
 }
 
-#character3 {
-    z-index: 4;
+#character2 {
+    right: 0;
 }
 
 .scene-image {
@@ -215,13 +214,6 @@ body {
         >
 
         <img
-            id="character3"
-            class="character"
-            src=""
-            alt=""
-        >
-
-        <img
             id="sceneImage"
             class="scene-image"
             src=""
@@ -286,8 +278,7 @@ body {
     src="music/static.mp3"
 ></audio>
 
-<script>
-const dialogues = [
+<script>const dialogues = [
 
     {
         name: "???",
@@ -579,8 +570,6 @@ const dialogues = [
         text: "OH MY GOD I'M SO HAPPY!!! YOU'RE ALIVE!!!",
         background: "images/Office.png",
         characters: [
-            "images/Tenna1.png",
-            "images/Spamton1.png",
             "images/shelbih.png"
         ],
         sceneImage: "",
@@ -606,8 +595,6 @@ const dialogues = [
         text: "You tripped over him yourself, you better shut up, he almost died because of you.",
         background: "images/Office.png",
         characters: [
-            "images/Tenna1.png",
-            "images/Spamton1.png",
             "images/Shelbi3.png"
         ],
         sceneImage: "",
@@ -659,8 +646,6 @@ const dialogues = [
         text: "...",
         background: "images/Office.png",
         characters: [
-            "images/Tenna1.png",
-            "images/Spamton2.png",
             "images/Shelbi2.png"
         ],
         sceneImage: "",
@@ -686,8 +671,6 @@ const dialogues = [
         text: "",
         background: "images/Office.png",
         characters: [
-            "images/Tenna1.png",
-            "images/Spamton2.png",
             "images/Tihun2.png"
         ],
         sceneImage: "",
@@ -700,8 +683,6 @@ const dialogues = [
         text: "Shelbi, I'm- oh? He's alive? Okay...",
         background: "images/Office.png",
         characters: [
-            "images/Tenna1.png",
-            "images/Spamton2.png",
             "images/Tihun1.png"
         ],
         sceneImage: "",
@@ -715,8 +696,7 @@ const dialogues = [
         background: "images/Office.png",
         characters: [
             "images/Tenna3.png",
-            "images/Spamton2.png",
-            "images/Tihun1.png"
+            "images/Spamton2.png"
         ],
         sceneImage: "",
         music: "sayonara",
@@ -729,8 +709,7 @@ const dialogues = [
         background: "images/Office.png",
         characters: [
             "images/Tenna3.png",
-            "images/Spamton2.png",
-            "images/Tihun1.png"
+            "images/Spamton2.png"
         ],
         sceneImage: "",
         music: "sayonara",
@@ -743,7 +722,6 @@ const dialogues = [
         background: "images/Office.png",
         characters: [
             "images/Tenna3.png",
-            "images/Spamton2.png",
             "images/Tihun1.png"
         ],
         sceneImage: "",
@@ -757,7 +735,6 @@ const dialogues = [
         background: "images/Office.png",
         characters: [
             "images/Tenna3.png",
-            "images/Spamton2.png",
             "images/Tihun1.png"
         ],
         sceneImage: "",
@@ -771,7 +748,6 @@ const dialogues = [
         background: "images/Office.png",
         characters: [
             "images/Tenna3.png",
-            "images/Spamton2.png",
             "images/Tihun2.png"
         ],
         sceneImage: "",
@@ -810,7 +786,6 @@ const dialogues = [
         text: "Oh, not yet! BUT I'LL FIX IT RIGHT NOW!",
         background: "images/Office.png",
         characters: [
-            "images/Tenna1.png",
             "images/Spamton3.png",
             "images/Shelbi1.png"
         ],
@@ -824,8 +799,6 @@ const dialogues = [
         text: "Tihun, LET'S GO, WE HAVE WORK TO DO!",
         background: "images/Office.png",
         characters: [
-            "images/Tenna1.png",
-            "images/Spamton3.png",
             "images/shelbih.png"
         ],
         sceneImage: "",
@@ -838,8 +811,6 @@ const dialogues = [
         text: "You. I've done mine.",
         background: "images/Office.png",
         characters: [
-            "images/Tenna1.png",
-            "images/Spamton3.png",
             "images/Tihun1.png"
         ],
         sceneImage: "",
@@ -852,8 +823,6 @@ const dialogues = [
         text: "ANYWAY!!!!",
         background: "images/Office.png",
         characters: [
-            "images/Tenna1.png",
-            "images/Spamton3.png",
             "images/shelbih.png"
         ],
         sceneImage: "",
@@ -1087,7 +1056,6 @@ let currentMusic = "";
 const bg = document.getElementById("background");
 const c1 = document.getElementById("character1");
 const c2 = document.getElementById("character2");
-const c3 = document.getElementById("character3");
 const sceneImage = document.getElementById("sceneImage");
 
 const nameBox = document.getElementById("name");
@@ -1130,7 +1098,6 @@ function showDialogue() {
 
     c1.src = d.characters[0] || "";
     c2.src = d.characters[1] || "";
-    c3.src = d.characters[2] || "";
 
     nameBox.textContent = d.name;
 
